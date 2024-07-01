@@ -23,6 +23,9 @@ Para instalar e executar o projeto localmente, siga os passos abaixo:
 3. Configure suas credenciais do JWT_SECRET_KEY no arquivo `.env`.
 4. Execute o projeto localmente com `yarn dev`.
 
+## Ambiente de Produção
+O projeto está hospedado em https://to-do-aws-clean-arch.vercel.app/. Você pode acessar e testar o aplicativo em produção.
+
 ## Contribuição
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue para reportar bugs ou sugerir melhorias. Se desejar contribuir com código, por favor, siga os padrões de estilo e estrutura já existentes no projeto.
 
