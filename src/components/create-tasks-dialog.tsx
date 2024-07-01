@@ -18,7 +18,6 @@ interface CreateTaskRequest {
     task: string;
     completed: boolean;
     createdAt: number;
-    concludedAt: number | null;
 }
 
 type CreateTaskSchema = z.infer<typeof createTaskSchema>
@@ -75,7 +74,6 @@ export function CreateTaskDialog() {
                     task: variables.task,
                     completed: variables.completed,
                     createdAt: variables.createdAt,
-                    concludedAt: variables.concludedAt,
                 }]
             })
         }
@@ -92,7 +90,6 @@ export function CreateTaskDialog() {
                 uid: user?.id ? user.id : "",
                 completed: false,
                 createdAt: timestamp,
-                concludedAt: null,
             })
         } catch (err) {
             console.log(err)

@@ -8,7 +8,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 interface UpdateTaskRequest {
     id: string;
     completed: boolean;
-    concludedAt: number | null;
 }
 
 async function updateTask(_: UpdateTaskRequest) {
@@ -48,7 +47,6 @@ export function TasksList() {
                     return {
                         ...task,
                         completed: variables.completed,
-                        concludedAt: variables.concludedAt
                     };
                 }
                 return task;
@@ -58,13 +56,10 @@ export function TasksList() {
     })
 
     async function handleUpdateTask(data: Task, checked: boolean) {
-        const timestamp = new Date().getTime();
-
         try {
             await updateTaskFn({
                 id: data.id,
                 completed: checked,
-                concludedAt: checked ? timestamp : null,
             })
         } catch (err) {
             console.log(err)
@@ -76,8 +71,6 @@ export function TasksList() {
         queryFn: handleGetTask,
         enabled: !!user?.id || user === null,
     })
-
-    console.log(tasks)
 
     return (
         <ul className="mt-4">
@@ -106,9 +99,8 @@ export function TasksList() {
                             {task.task}
                         </span>
                         <span>
-                            <div>
+                            <div className="text-neutral-400">
                                 {new Intl.DateTimeFormat('pt-BR', {}).format(task.createdAt)}
-                                {task.concludedAt && " - " + new Intl.DateTimeFormat('pt-BR', {}).format(task.concludedAt)}
                             </div>
                         </span>
                     </div>

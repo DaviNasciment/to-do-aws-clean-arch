@@ -4,5 +4,4 @@ export interface Task {
   task: string;
   completed: boolean;
   createdAt: number;
-  concludedAt: number | null;
 }

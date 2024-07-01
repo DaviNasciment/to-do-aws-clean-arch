@@ -34,7 +34,6 @@ export class ApiTask implements TaskRepository {
         uid: task.uid,
         task: task.task,
         createdAt: task.createdAt,
-        concludedAt: task.concludedAt,
         completed: task.completed,
       })
     );

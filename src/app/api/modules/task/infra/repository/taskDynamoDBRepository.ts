@@ -21,7 +21,6 @@ export class TaskDynamoDBRepository implements TaskRepository {
                 uid: task.uid,
                 task: task.task,
                 completed: task.completed,
-                concludedAt: task.concludedAt,
                 createdAt: task.createdAt
             },
         };
@@ -59,11 +58,10 @@ export class TaskDynamoDBRepository implements TaskRepository {
             Key: {
                 id: task.id
             },
-            UpdateExpression: "set task = :task, completed = :completed, concludedAt = :concludedAt",
+            UpdateExpression: "set task = :task, completed = :completed",
             ExpressionAttributeValues: {
                 ":task": task.task,
                 ":completed": task.completed,
-                ":concludedAt": task.concludedAt
             },
             ReturnValues: "ALL_NEW" as const
         };
