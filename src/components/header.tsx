@@ -53,7 +53,7 @@ export function Header() {
           <div>
             {userData ?
               <div className="flex items-center">
-                <div className="flex items-center mr-4 p-2 bg-[#111111]/70 border border-[#242424] rounded-lg shadow-md">
+                <div className="flex items-center mx-4 p-2 bg-[#111111]/70 border border-[#242424] rounded-lg shadow-md">
                   <h3 className="font-semibold text-gray-200">Olá, {formatName(userData.name)}.</h3>
                 </div>
 
