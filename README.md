@@ -1,8 +1,5 @@
----
-
 # Todo App with DynamoDB and Clean Architecture
 
-![Logo do Projeto](link-para-o-logo)
 
 ## Overview
 Este projeto é um aplicativo de lista de tarefas (Todo App) que utiliza o banco de dados NoSQL DynamoDB da AWS e segue os princípios da Clean Architecture. Ele está sendo desenvolvido para proporcionar uma estrutura escalável e de fácil manutenção, utilizando as melhores práticas de desenvolvimento de software.
@@ -31,5 +28,3 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue para r
 
 ## Estado do Projeto
 Este projeto está em andamento. Futuramente, está previsto um processo de refatoramento para melhorar a estrutura do código, aumentar a cobertura de testes e otimizar o desempenho.
-
----
