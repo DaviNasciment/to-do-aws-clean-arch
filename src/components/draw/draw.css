@@ -1,0 +1,123 @@
+.canvas-container {
+  position: relative;
+  width: min-content;
+  box-shadow: 0 0 6px white;
+  align-self: center;
+  margin: auto;
+  background-color: #0d0d0d;
+}
+
+.canvas-container canvas {
+  display: block;
+}
+
+.canvas-container canvas.moving {
+  cursor: grab;
+}
+
+.canvas-container canvas.moving:active {
+  cursor: grabbing;
+}
+
+.canvas-container .menu {
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 10px;
+  bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #242424;
+  background-color: rgb(30, 30, 30, .7);
+  backdrop-filter: blur(10px);
+  position: absolute;
+}
+
+.canvas-container .menu.right {
+  left: unset;
+  right: 10px;
+}
+
+.canvas-container .menu hr {
+  border-top: 1px solid rgb(165, 165, 165);
+  margin: 5px;
+}
+
+.canvas-container .menu[aria-disabled="true"] {
+  /* opacity: 0.25; */
+  pointer-events: none;
+}
+.canvas-container .menu .preview {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background-color: white;
+  outline: 1px solid #dadada;
+}
+
+.canvas-container .menu .preview .active {
+  position: absolute;
+  background-color: #b9b9b9;
+}
+
+.canvas-container .menu .button {
+  background: none;
+  padding: 2px;
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.canvas-container .menu .button * {
+  display: block;
+}
+
+.canvas-container .menu .color input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 30px;
+  height: 34px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: -2px;
+}
+.canvas-container .menu .color input::-webkit-color-swatch {
+  border-radius: 50%;
+  border: 1px solid #242424;
+}
+.canvas-container .menu .color input::-moz-color-swatch {
+  border-radius: 50%;
+  border: 1px solid #242424;
+}
+
+.canvas-container .menu .button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.canvas-container .menu .button:disabled:hover {
+  background: none;
+}
+
+.canvas-container .menu .button:hover {
+  /* background: rgba(0, 0, 0, 0.1); */
+}
+
+.canvas-container .menu .button[aria-pressed="true"] svg {
+  transform: translate(0px, -10px);
+}
+
+.canvas-container .menu .buttonPen[aria-pressed="true"] svg {
+  transform: translate(0px, -2px);
+}
+
+.hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  pointer-events: none;
+}

@@ -6,6 +6,7 @@ import RegisterModal from "./modals/register";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "@/core/user/interfaces/userInterface";
 import { Loading } from "./loading";
+import Link from "next/link";
 
 export function Header() {
   const [isOpenModalLogin, setIsOpenModalLogin] = useState(false);
@@ -13,7 +14,7 @@ export function Header() {
 
   const handleGetUserData = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    
+
     const res = await fetch("/api/user/getUserByIdAuthenticated", {
       method: "GET",
       headers: {
@@ -49,7 +50,12 @@ export function Header() {
 
       <header>
         <nav className="flex justify-between items-center border border-[#242424] bg-[#1e1e1e]/70 backdrop-blur-md px-4 py-2 rounded-md">
-          <div className="p-2 px-2.5 text-xs select-none bg-secundary rounded-md inline-block"><code>&lt;&gt;</code></div>
+          <div className="flex gap-4 justify-center items-center">
+            <div className="p-2 px-2.5 text-xs select-none bg-secundary rounded-md inline-block"><code>&lt;&gt;</code></div>
+            <Link className="hover:bg-[#ffffff1a] mr-2 text-white p-2 rounded-md select-none" href="/draw">
+              Draw
+            </Link>
+          </div>
           <div>
             {userData ?
               <div className="flex items-center">

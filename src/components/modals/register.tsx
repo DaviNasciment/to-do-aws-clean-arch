@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react';
-import { HiAtSymbol, HiFingerPrint, HiOutlineEye, HiOutlineEyeOff, HiOutlineUser } from 'react-icons/hi';
+import { HiAtSymbol, HiFingerPrint, HiOutlineEye, HiOutlineEyeOff, HiOutlineUser, HiX } from 'react-icons/hi';
 
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,11 +73,12 @@ const RegisterModal = ({ isOpen, onClose }: IRegisterModal) => {
         }`}
     >
       <div className="fixed inset-0 bg-[#00000054] opacity-50"></div>
-      <div ref={modalRef} className="rounded-lg max-w-sm z-10 w-full">
+      <div ref={modalRef} className="rounded-lg md:max-w-sm z-10 w-full">
         {/* <!-- Modal content --> */}
         <div className="relative bg-[#1e1e1e] rounded-lg shadow w-full">
           {/* <!-- Modal header --> */}
           <div className="flex items-start justify-between rounded-t">
+            <span onClick={onClose} className="absolute cursor-pointer right-2 top-2 bg-[#1e1e1e] p-2 rounded-md text-white hover:text-[#fcc83a] transition-all"><HiX /></span>
             <h3 className="text-lg font-medium text-gray-600">
               <Image
                 src="/images/colorful-unsplash.jpg"
