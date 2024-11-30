@@ -110,6 +110,10 @@
   transform: translate(0px, -10px);
 }
 
+.canvas-container .menu .buttonGeo[aria-pressed="true"] svg {
+  transform: scale(1.2);
+}
+
 .canvas-container .menu .buttonPen[aria-pressed="true"] svg {
   transform: translate(0px, -2px);
 }

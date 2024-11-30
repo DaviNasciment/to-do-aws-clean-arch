@@ -1,8 +1,10 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { MODES, PAN_LIMIT } from "./constants";
-import { MdCropSquare, MdCircle, MdUndo, MdRedo, MdImportExport, MdFileUpload } from "react-icons/md";
+import { MdCropSquare, MdCircle } from "react-icons/md";
 import { PenIcon } from "./icons/pen";
-import { PiHandGrabbingDuotone } from "react-icons/pi";
+import { PiHandGrabbingDuotone, PiArrowClockwiseDuotone, PiArrowCounterClockwiseDuotone, PiArrowSquareOutDuotone, PiArrowSquareInDuotone, PiSquare, PiSquareFill, PiCircle, PiCircleFill } from "react-icons/pi";
+import { EraserIcon } from "./icons/eraser";
+import RulerRange from "./RulerRange";
 
 let lastPath: any[] = [];
 
@@ -107,6 +109,12 @@ const Canvas = ({ settings, ...rest }: any) => {
     switch (mode) {
       case MODES.PEN:
         point ? previewPen(point, ctx) : drawPen(path, ctx);
+        break;
+      case MODES.ERASER:
+        if (point) {
+          ctx.clearRect(point[0] - settings.current.stroke / 2, point[1] - settings.current.stroke / 2, settings.current.stroke, settings.current.stroke);
+          lastPath.push(point); // Armazena os pontos apagados (opcional, para histórico)
+        }
         break;
       case MODES.RECT:
         if (point) {
@@ -297,12 +305,22 @@ const Canvas = ({ settings, ...rest }: any) => {
     {
       mode: MODES.RECT,
       title: "Rectangle",
-      Icon: MdCropSquare,
+      Icon: PiSquare,
+    },
+    {
+      mode: MODES.RECTFILL,
+      title: "RectangleFill",
+      Icon: PiSquareFill,
     },
     {
       mode: MODES.CIRCLE,
       title: "Circle",
-      Icon: MdCircle,
+      Icon: PiCircle,
+    },
+    {
+      mode: MODES.CIRCLEFILL,
+      title: "CircleFill",
+      Icon: PiCircleFill,
     },
   ];
 
@@ -322,89 +340,113 @@ const Canvas = ({ settings, ...rest }: any) => {
           onPointerUp={(e) => e.stopPropagation()}
           aria-disabled={drawing}
         >
-          <div className="flex flex-col items-center justify-around border-r border-[#242424] pr-4 mr-4">
-            <button
-              key={MODES.PAN}
-              type="button"
-              onClick={setMode(MODES.PAN)}
-              aria-pressed={settings.current.mode === MODES.PAN}
-              title={"Move"}
-            >
-              <PiHandGrabbingDuotone size={30} />
-            </button>
-            <button className="button color" type="button">
-              <input
-                type="color"
-                title="change color"
-                defaultValue={settings.current.color}
-                onChange={changeColor}
-                className="rounded-color"
-              />
-            </button>
-          </div>
+          <div className="flex flex-col">
+            {(settings.current.mode === MODES.PEN) || (settings.current.mode === MODES.ERASER) ? <RulerRange settings={settings} /> : null}
+            <div className="flex justify-center gap-2">
+              <div className="flex flex-col items-center justify-around border-r border-[#242424] pr-4 mr-4">
+                <button
+                  key={MODES.PAN}
+                  type="button"
+                  onClick={setMode(MODES.PAN)}
+                  aria-pressed={settings.current.mode === MODES.PAN}
+                  title={"Move"}
+                >
+                  <PiHandGrabbingDuotone size={30} />
+                </button>
+                <button className="button color" type="button">
+                  <input
+                    type="color"
+                    title="change color"
+                    defaultValue={settings.current.color}
+                    onChange={changeColor}
+                    className="rounded-color"
+                  />
+                </button>
+              </div>
 
-          <div className="overflow-hidden h-14">
-            <button
-              className="buttonPen"
-              key={MODES.PEN}
-              type="button"
-              onClick={setMode(MODES.PEN)}
-              aria-pressed={settings.current.mode === MODES.PEN}
-              title={"Pen"}
-            >
-              <PenIcon className="w-8 h-16 translate-y-2 transition-all duration-200 drop-shadow-md" />
-            </button>
-          </div>
+              <div className="overflow-hidden h-14">
+                <button
+                  className="buttonPen"
+                  key={MODES.PEN}
+                  type="button"
+                  onClick={setMode(MODES.PEN)}
+                  aria-pressed={settings.current.mode === MODES.PEN}
+                  title={"Pen"}
+                >
+                  <PenIcon className="w-8 h-16 translate-y-2 transition-all duration-200 drop-shadow-md" />
+                </button>
+              </div>
 
-          {modeButtons.map((btn) => (
-            <button
-              className="button"
-              key={btn.mode}
-              type="button"
-              onClick={setMode(btn.mode)}
-              aria-pressed={settings.current.mode === btn.mode}
-              title={btn.title}
-            >
-              <btn.Icon size={24} />
-            </button>
-          ))}
-          <button
-            className="button"
-            type="button"
-            onClick={undoCanvas}
-            disabled={history.current.length === 0}
-            title="Undo"
-          >
-            <MdUndo size={24} />
-          </button>
-          <button
-            className="button"
-            type="button"
-            onClick={redoCanvas}
-            disabled={redoHistory.current.length === 0}
-            title="Redo"
-          >
-            <MdRedo size={24} />
-          </button>
-          <button
-            className="button"
-            type="button"
-            onClick={exportCanvas}
-            disabled={history.current.length === 0}
-            title="Export"
-          >
-            <MdImportExport size={24} />
-          </button>
-          <input
-            ref={importInput}
-            className="hidden"
-            type="file"
-            accept="application/json"
-            onChange={importCanvas}
-          />
-          <button className="button" type="button" onClick={onImportClick} title="Import">
-            <MdFileUpload size={24} />
-          </button>
+              <div className="overflow-hidden h-14">
+                <button
+                  className="buttonPen"
+                  key={MODES.ERASER}
+                  type="button"
+                  onClick={setMode(MODES.ERASER)}
+                  aria-pressed={settings.current.mode === MODES.ERASER}
+                  title={"Eraser"}
+                >
+                  <EraserIcon className="w-8 h-16 translate-y-2 transition-all duration-200 drop-shadow-md" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-1">
+                {modeButtons.map((btn) => (
+                  <button
+                    className="buttonGeo"
+                    key={btn.mode}
+                    type="button"
+                    onClick={setMode(btn.mode)}
+                    aria-pressed={settings.current.mode === btn.mode}
+                    title={btn.title}
+                  >
+                    <btn.Icon size={24} />
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-col items-center justify-around border-l border-[#242424] pl-4 ml-4">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={undoCanvas}
+                  disabled={history.current.length === 0}
+                  title="Undo"
+                >
+                  <PiArrowCounterClockwiseDuotone size={24} />
+                </button>
+                <button
+                  className="button"
+                  type="button"
+                  onClick={redoCanvas}
+                  disabled={redoHistory.current.length === 0}
+                  title="Redo"
+                >
+                  <PiArrowClockwiseDuotone size={24} />
+                </button>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={exportCanvas}
+                  disabled={history.current.length === 0}
+                  title="Export"
+                >
+                  <PiArrowSquareInDuotone size={24} />
+                </button>
+                <input
+                  ref={importInput}
+                  className="hidden"
+                  type="file"
+                  accept="application/json"
+                  onChange={importCanvas}
+                />
+                <button className="button" type="button" onClick={onImportClick} title="Import">
+                  <PiArrowSquareOutDuotone size={24} />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

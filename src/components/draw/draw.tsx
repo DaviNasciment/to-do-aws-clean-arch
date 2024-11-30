@@ -6,7 +6,7 @@ import { useWindowSize } from "./hooks";
 
 export function Draw() {
   const settings = useRef({
-    stroke: 3,
+    stroke: 2,
     color: "#ffffff",
     mode: MODES.PEN,
   });

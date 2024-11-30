@@ -3,7 +3,10 @@ export const MODES = {
   PEN: 1,
   LINE: 2,
   RECT: 3,
-  CIRCLE: 4,
+  RECTFILL: 4,
+  CIRCLE: 5,
+  CIRCLEFILL: 6,
+  ERASER: 7,
 };
 
 export const PAN_LIMIT = 3000;
