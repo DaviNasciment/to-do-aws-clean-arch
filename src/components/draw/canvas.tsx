@@ -112,8 +112,22 @@ const Canvas = ({ settings, ...rest }: any) => {
         break;
       case MODES.ERASER:
         if (point) {
-          ctx.clearRect(point[0] - settings.current.stroke / 2, point[1] - settings.current.stroke / 2, settings.current.stroke, settings.current.stroke);
-          lastPath.push(point); // Armazena os pontos apagados (opcional, para histórico)
+          ctx.clearRect(
+            point[0] - settings.current.stroke / 2,
+            point[1] - settings.current.stroke / 2,
+            settings.current.stroke,
+            settings.current.stroke
+          );
+          path.push(point);
+        } else {
+          for (const p of path) {
+            ctx.clearRect(
+              p[0] - settings.current.stroke / 2,
+              p[1] - settings.current.stroke / 2,
+              settings.current.stroke,
+              settings.current.stroke
+            );
+          }
         }
         break;
       case MODES.RECT:
