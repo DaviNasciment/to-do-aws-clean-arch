@@ -9,4 +9,4 @@ export const MODES = {
   ERASER: 7,
 };
 
-export const PAN_LIMIT = 3000;
+export const PAN_LIMIT = 6000;
