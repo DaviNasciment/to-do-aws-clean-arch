@@ -1,6 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { MODES, PAN_LIMIT } from "./constants";
-import { MdCropSquare, MdCircle } from "react-icons/md";
 import { PenIcon } from "./icons/pen";
 import { PiHandGrabbingDuotone, PiArrowClockwiseDuotone, PiArrowCounterClockwiseDuotone, PiArrowSquareOutDuotone, PiArrowSquareInDuotone, PiSquare, PiSquareFill, PiCircle, PiCircleFill } from "react-icons/pi";
 import { EraserIcon } from "./icons/eraser";
@@ -9,6 +8,8 @@ import RulerRange from "./RulerRange";
 let lastPath: any[] = [];
 
 const Canvas = ({ settings, ...rest }: any) => {
+  const temporaryPan = useRef(false);
+  const previousMode = useRef(null);
   const width = Math.min(rest.width, PAN_LIMIT);
   const height = Math.min(rest.height, PAN_LIMIT);
   const [drawing, setDrawing] = useState(false);
@@ -32,6 +33,14 @@ const Canvas = ({ settings, ...rest }: any) => {
     prevent(e);
     getContext(settings.current);
     coords.current = [e.clientX, e.clientY];
+
+    if (e.button === 1) {
+      temporaryPan.current = true;
+      previousMode.current = settings.current.mode;
+      settings.current.mode = MODES.PAN;
+      moving.current = true;
+      return;
+    }
     if (settings.current.mode === MODES.PAN) {
       moving.current = true;
       return;
@@ -45,6 +54,15 @@ const Canvas = ({ settings, ...rest }: any) => {
 
   const onPointerUp = (e: any) => {
     prevent(e);
+    if (temporaryPan.current) {
+      temporaryPan.current = false;
+      moving.current = false;
+      if (previousMode.current) {
+        settings.current.mode = previousMode.current;
+        previousMode.current = null;
+      }
+      return;
+    }
     if (settings.current.mode === MODES.PAN) {
       moving.current = false;
       return;
@@ -191,7 +209,7 @@ const Canvas = ({ settings, ...rest }: any) => {
   const previewCircle = (path: any, ctx: any) => {
     if (path.length < 2) return;
     drawCanvas(ctx);
-    getContext(settings.current, ctx); // reset context
+    getContext(settings.current, ctx);
     drawCircle(path, ctx);
   };
 
