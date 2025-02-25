@@ -464,7 +464,7 @@ const Canvas = ({ settings, ...rest }: any) => {
                   disabled={history.current.length === 0}
                   title="Export"
                 >
-                  <PiArrowSquareInDuotone size={24} />
+                  <PiArrowSquareOutDuotone size={24} />
                 </button>
                 <input
                   ref={importInput}
@@ -474,7 +474,7 @@ const Canvas = ({ settings, ...rest }: any) => {
                   onChange={importCanvas}
                 />
                 <button className="button" type="button" onClick={onImportClick} title="Import">
-                  <PiArrowSquareOutDuotone size={24} />
+                  <PiArrowSquareInDuotone size={24} />
                 </button>
               </div>
             </div>
